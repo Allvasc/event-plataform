@@ -1,6 +1,14 @@
+import { useState, FormEvent } from "react"
 import { Logo } from "../components/Logo"
 
 const Subscribe = () => {
+    const [name, setName] = useState('')
+    const [email, setEmail] = useState('')
+
+    const handleSubscribe = (event: FormEvent) => {
+        event.preventDefault()
+    } 
+
     return (
         <div className="min-h-screen bg-blur bg-cover bg-no-repeat flex flex-col items-center">
             <div className="w-full max-w-[1100px] flex items-center justify-between mt-20 mx-auto">
@@ -16,15 +24,17 @@ const Subscribe = () => {
                         Inscreva-se gratuitamente
                     </strong>
 
-                    <form action="" className="flex flex-col gap-2 w-full">
+                    <form onSubmit={handleSubscribe} className="flex flex-col gap-2 w-full">
                         <input className="bg-gray-900 rounded px-5 h-14"
                             type="text"
-                            placeholder="Seu nome aqui"
+                            placeholder="Seu nome aqui" 
+                            onChange={event => setName(event.target.value)}
                         />
 
                         <input className="bg-gray-900 rounded px-5 h-14"
                             type="email"
-                            placeholder="Seu email aqui"
+                            placeholder="Seu email aqui" 
+                            onChange={event => setEmail(event.target.value)}
                         />
                         <button type="submit" className="mt-4 bg-green-500 uppercase py-4 rounded font-bold text-sm hover:bg-green-700 transition-colors">Garantir minha vaga</button>
                     </form>
