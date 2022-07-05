@@ -1,6 +1,7 @@
 import { useState, FormEvent } from "react"
 import { Logo } from "../components/Logo"
 import { gql, useMutation } from "@apollo/client"
+import { useNavigate } from "react-router-dom"
 
 
 const CREATE_SUBSCRIBER_MUTATION = gql`
@@ -12,21 +13,25 @@ mutation CreateSubscriber ($name: String!, $email: String!) {
   `
 
 const Subscribe = () => {
+    const navigate = useNavigate()
+
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
-    
-    const [createSubscriber] = useMutation(CREATE_SUBSCRIBER_MUTATION)
+
+    const [createSubscriber, { loading }] = useMutation(CREATE_SUBSCRIBER_MUTATION)
 
 
-    const handleSubscribe = (event: FormEvent) => {
+    const handleSubscribe = async (event: FormEvent) => {
         event.preventDefault()
 
-        createSubscriber({
+        await createSubscriber({
             variables: {
                 name,
                 email,
             }
         })
+
+        navigate('/event/lesson/aula-01-criando-o-projeto-e-realizando-o-setup-inicial')
     }
 
 
@@ -57,7 +62,7 @@ const Subscribe = () => {
                             placeholder="Seu email aqui"
                             onChange={event => setEmail(event.target.value)}
                         />
-                        <button type="submit" className="mt-4 bg-green-500 uppercase py-4 rounded font-bold text-sm hover:bg-green-700 transition-colors">Garantir minha vaga</button>
+                        <button type="submit" disabled={loading} className="mt-4 bg-green-500 uppercase py-4 rounded font-bold text-sm hover:bg-green-700 disabled:opacity-50 transition-colors">Garantir minha vaga</button>
                     </form>
                 </div>
             </div>
